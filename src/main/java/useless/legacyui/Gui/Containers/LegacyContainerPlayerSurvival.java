@@ -19,15 +19,15 @@ public class LegacyContainerPlayerSurvival extends ContainerPlayer {
             this.addSlot(new SlotNull(this.playerInv,index, -5000, -5000));
         }
         for (int index = 0; index < 4; ++index) { // Create Armor Slots
-            this.addSlot(new SlotArmor(this, inventory, inventory.getSizeInventory() - 1 - index, 139, 39 + index * 39, index));
+            this.addSlot(new SlotArmor(this, inventory, inventory.getSizeInventory() - 1 - index, 127, 27 + index * 42, index));
         }
         for (int row = 0; row < 3; ++row) { // Create Main Inventory Slots
             for (int column = 0; column < 9; ++column) {
-                this.addSlot(new Slot(inventory, column + (row + 1) * 9, 38 + column * 39, 241 + row * 39));
+                this.addSlot(new Slot(inventory, column + (row + 1) * 9, 24 + column * 42, 240 + row * 42));
             }
         }
         for (int column = 0; column < 9; ++column) { // Create Hotbar slots
-            this.addSlot(new Slot(inventory, column, 38 + column * 39, 380));
+            this.addSlot(new Slot(inventory, column, 24 + column * 42, 369));
         }
     }
     @Override

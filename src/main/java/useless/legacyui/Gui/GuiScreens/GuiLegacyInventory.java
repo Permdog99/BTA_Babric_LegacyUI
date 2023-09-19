@@ -20,6 +20,7 @@ import java.util.List;
 
 public class GuiLegacyInventory extends GuiInventory {
     private static int GUIx;
+    private static final int guiTextureWidth = 435;
     private static int GUIy;
     protected GuiAuditoryButton craftButton;
     protected EntityPlayer player;
@@ -34,8 +35,8 @@ public class GuiLegacyInventory extends GuiInventory {
         // Setup size variables
         xSize = 430;
         ySize = 435;
-        GUIx = (this.width - this.xSize) / 11;
-        GUIy = (this.height - this.ySize) / 8;
+        GUIx = (this.width - this.xSize) / 2;
+        GUIy = (this.height - this.ySize) / 2;
 
         // Create Crafting Button
         craftButton = new GuiAuditoryButton(10, GUIx + 138, GUIy + 33, 20, 21, "");
@@ -76,24 +77,24 @@ public class GuiLegacyInventory extends GuiInventory {
 
     protected void drawGuiContainerBackgroundLayer(float renderPartialTick) {
         UtilGui.bindTexture("/assets/legacyui/gui/lce-inventory-ui.png");
-        this.drawTexturedModalRect(GUIx, GUIy, 0, 0, this.xSize, this.ySize);
+        UtilGui.drawTexturedModalRect(this, GUIx, GUIy, 0, 0, this.xSize, this.ySize, 1f/guiTextureWidth);
         renderPlayerDoll();
-        drawStringNoShadow(fontRenderer, I18n.getInstance().translateKey("legacyui.guilabel.inventory"),GUIx + 39,GUIy +209, ModSettings.Colors.GuiLabelColor());
+        drawStringNoShadow(fontRenderer, I18n.getInstance().translateKey("legacyui.guilabel.inventory"),GUIx + 28,GUIy +226, ModSettings.Colors.GuiLabelColor());
     }
     private void renderPlayerDoll(){
         GL11.glEnable(32826);
         GL11.glEnable(2903);
         GL11.glEnable(2929);
         GL11.glPushMatrix();
-        GL11.glTranslatef(GUIx + 252, GUIy + 188, 50.0f);
+        GL11.glTranslatef(GUIx + 242, GUIy + 184, 50.0f);
         float f1 = 30.0f;
         GL11.glScalef(-f1, f1, f1);
         GL11.glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
         float f2 = this.mc.thePlayer.renderYawOffset;
         float f3 = this.mc.thePlayer.yRot;
         float f4 = this.mc.thePlayer.xRot;
-        float f5 = (float)(GUIx + 51 + 44) - this.xSize_lo;
-        float f6 = (float)(GUIy + 75 - 50 - 5) - this.ySize_lo;
+        float f5 = (float)(GUIx + 242) - this.xSize_lo;
+        float f6 = (float)(GUIy + 37) - this.ySize_lo;
         GL11.glRotatef(135.0f, 0.0f, 1.0f, 0.0f);
         Lighting.enableLight();
         GL11.glRotatef(-135.0f, 0.0f, 1.0f, 0.0f);
