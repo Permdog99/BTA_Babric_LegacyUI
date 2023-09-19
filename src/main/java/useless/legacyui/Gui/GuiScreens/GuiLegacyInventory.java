@@ -32,19 +32,10 @@ public class GuiLegacyInventory extends GuiInventory {
         super.initGui();
 
         // Setup size variables
-        xSize = 176;
-        ySize = 176;
-        GUIx = (this.width - this.xSize) / 2;
-        GUIy = (this.height - this.ySize) / 2;
-
-        // Offset Armor Button
-        GuiButton armorButton = ((GuiInventoryAccessor)this).getArmorButton();
-        if (armorButton != null){
-            armorButton.xPosition += 44;
-            armorButton.yPosition -= 5;
-        } else {
-            LegacyUI.LOGGER.info("Armor Button is null!");
-        }
+        xSize = 430;
+        ySize = 435;
+        GUIx = (this.width - this.xSize) / 11;
+        GUIy = (this.height - this.ySize) / 8;
 
         // Create Crafting Button
         craftButton = new GuiAuditoryButton(10, GUIx + 138, GUIy + 33, 20, 21, "");
@@ -69,7 +60,7 @@ public class GuiLegacyInventory extends GuiInventory {
         LegacySoundManager.volume = 1f;
     }
     public void drawScreen(int x, int y, float renderPartialTicks) {
-        super.drawScreen(x,y,renderPartialTicks);
+        super.drawScreen(x, y, renderPartialTicks);
 
         UtilGui.bindTexture("/assets/legacyui/gui/legacyinventory.png");
         this.drawTexturedModalRect(craftButton.xPosition, craftButton.yPosition, 177, craftButton.isHovered(x,y) ? 77:54, craftButton.width, craftButton.height); // Crafting Button Render
@@ -79,20 +70,22 @@ public class GuiLegacyInventory extends GuiInventory {
             }
         }
     }
+
     protected void drawGuiContainerForegroundLayer() {
     }
+
     protected void drawGuiContainerBackgroundLayer(float renderPartialTick) {
-        UtilGui.bindTexture("/assets/legacyui/gui/legacyinventory.png");
+        UtilGui.bindTexture("/assets/legacyui/gui/lce-inventory-ui.png");
         this.drawTexturedModalRect(GUIx, GUIy, 0, 0, this.xSize, this.ySize);
         renderPlayerDoll();
-        drawStringNoShadow(fontRenderer, I18n.getInstance().translateKey("legacyui.guilabel.inventory"),GUIx + 8,GUIy +82, ModSettings.Colors.GuiLabelColor());
+        drawStringNoShadow(fontRenderer, I18n.getInstance().translateKey("legacyui.guilabel.inventory"),GUIx + 39,GUIy +209, ModSettings.Colors.GuiLabelColor());
     }
     private void renderPlayerDoll(){
         GL11.glEnable(32826);
         GL11.glEnable(2903);
         GL11.glEnable(2929);
         GL11.glPushMatrix();
-        GL11.glTranslatef(GUIx + 51 + 44, GUIy + 75 - 5, 50.0f);
+        GL11.glTranslatef(GUIx + 252, GUIy + 188, 50.0f);
         float f1 = 30.0f;
         GL11.glScalef(-f1, f1, f1);
         GL11.glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
