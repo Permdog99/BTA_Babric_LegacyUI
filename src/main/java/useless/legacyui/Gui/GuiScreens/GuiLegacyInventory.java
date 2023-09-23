@@ -9,6 +9,7 @@ import net.minecraft.client.render.Lighting;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.lang.I18n;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Point;
 import useless.legacyui.Gui.GuiElements.Buttons.GuiAuditoryButton;
 import useless.legacyui.Gui.GuiElements.GuiButtonPrompt;
 import useless.legacyui.Gui.LCEFontRenderer;
@@ -16,15 +17,18 @@ import useless.legacyui.LegacySoundManager;
 import useless.legacyui.LegacyUI;
 import useless.legacyui.Mixins.Gui.GuiInventoryAccessor;
 import useless.legacyui.Settings.ModSettings;
+import useless.legacyui.Gui.GuiElements.LCEText;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GuiLegacyInventory extends GuiInventory {
+    public useless.legacyui.Gui.LCEFontRenderer lcefr;
+    public useless.legacyui.LegacyUI lce;
+    public useless.legacyui.Gui.LCEFontRenderer LCEfontRenderer;
     private static int GUIx;
     private static final int guiTextureWidth = 435;
     private static int GUIy;
-    protected LCEFontRenderer LCEfontRenderer;
 
     protected GuiAuditoryButton craftButton;
     protected EntityPlayer player;
@@ -83,12 +87,20 @@ public class GuiLegacyInventory extends GuiInventory {
         UtilGui.bindTexture("/assets/legacyui/gui/lce-inventory-ui.png");
         UtilGui.drawTexturedModalRect(this, GUIx, GUIy, 0, 0, this.xSize, this.ySize, 3f/guiTextureWidth);
         renderPlayerDoll();
-        drawStringNoShadow(LCEfontRenderer, I18n.getInstance().translateKey("legacyui.guilabel.inventory"),GUIx + 8,GUIy + 82 - 16, ModSettings.legacyOptions.getGuiLabelColor().value.value);
+        renderInvText();
     }
 
-    public void refreshFontRenderer() {
-        this.LCEfontRenderer = (LCEFontRenderer) this.mc.fontRenderer;
+    private void renderInvText() {
+        int scale = (int) 1.4;
+        double size = 1.4;
+        int posX = GUIx+8;
+        int posY = GUIy+82;
+        GL11.glPushMatrix();
+        GL11.glScaled(1/size,1/size,1/size);
+        drawStringNoShadow(fontRenderer, I18n.getInstance().translateKey("legacyui.guilabel.inventory"), posX*(1/scale), posY*(1/scale), ModSettings.legacyOptions.getGuiLabelColor().value.value);
+        GL11.glPopMatrix();
     }
+
     private void renderPlayerDoll(){
         GL11.glEnable(32826);
         GL11.glEnable(2903);

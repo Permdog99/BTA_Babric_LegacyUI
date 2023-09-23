@@ -18,6 +18,7 @@ import useless.prismaticlibe.helper.SoundHelper;
 import java.util.function.Function;
 
 public class LegacyUI implements ModInitializer {
+    public useless.legacyui.Gui.LCEFontRenderer LCEfontRenderer;
     static {
         //this is here to possibly fix some class loading issues, do not delete
         try {
