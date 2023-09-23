@@ -2,11 +2,14 @@ package useless.legacyui.Gui.GuiScreens;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.render.FontRenderer;
 import net.minecraft.client.render.Tessellator;
 import org.lwjgl.opengl.GL11;
 import useless.legacyui.Helper.IconHelper;
+import useless.legacyui.Gui.ITextResize;
 
-public class UtilGui {
+public class UtilGui implements ITextResize {
+    public int size;
     public static Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
     public static void bindTexture(String texture){
         int inventoryTex = mc.renderEngine.getTexture(texture);
@@ -23,6 +26,15 @@ public class UtilGui {
         tessellator.addVertexWithUV(x + width, y + 0, gui.zLevel, (float)(u + width) * uScale, (float)(v + 0) * vScale);
         tessellator.addVertexWithUV(x + 0, y + 0, gui.zLevel, (float)(u + 0) * uScale, (float)(v + 0) * vScale);
         tessellator.draw();
+    }
+
+    private void drawStringNoShadowLCE(FontRenderer fr, String string, int x, int y, int argb, int size) {
+        fr.drawString(string, x, y, argb);
+        this.size = size;
+    }
+
+    public int getSize() {
+        return this.size;
     }
 
     public static void drawIconTexture(Gui gui, int x, int y, int[] iconCoord, float scale){

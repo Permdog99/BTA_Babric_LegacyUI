@@ -4,12 +4,14 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiInventory;
 import net.minecraft.client.input.InputType;
 import net.minecraft.client.render.EntityRenderDispatcher;
+import net.minecraft.client.render.FontRenderer;
 import net.minecraft.client.render.Lighting;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.lang.I18n;
 import org.lwjgl.opengl.GL11;
 import useless.legacyui.Gui.GuiElements.Buttons.GuiAuditoryButton;
 import useless.legacyui.Gui.GuiElements.GuiButtonPrompt;
+import useless.legacyui.Gui.LCEFontRenderer;
 import useless.legacyui.LegacySoundManager;
 import useless.legacyui.LegacyUI;
 import useless.legacyui.Mixins.Gui.GuiInventoryAccessor;
@@ -20,8 +22,10 @@ import java.util.List;
 
 public class GuiLegacyInventory extends GuiInventory {
     private static int GUIx;
-    private static final int guiTextureWidth = 217;
+    private static final int guiTextureWidth = 435;
     private static int GUIy;
+    protected LCEFontRenderer LCEfontRenderer;
+
     protected GuiAuditoryButton craftButton;
     protected EntityPlayer player;
     public List<GuiButtonPrompt> prompts = new ArrayList<>();
@@ -33,8 +37,8 @@ public class GuiLegacyInventory extends GuiInventory {
         super.initGui();
 
         // Setup size variables
-        xSize = 176;
-        ySize = 176;
+        xSize = 145;
+        ySize = 145;
         GUIx = (this.width - this.xSize) / 2;
         GUIy = (this.height - this.ySize) / 2;
 
@@ -77,23 +81,27 @@ public class GuiLegacyInventory extends GuiInventory {
 
     protected void drawGuiContainerBackgroundLayer(float renderPartialTick) {
         UtilGui.bindTexture("/assets/legacyui/gui/lce-inventory-ui.png");
-        UtilGui.drawTexturedModalRect(this, GUIx, GUIy, 0, 0, this.xSize, this.ySize, 1.232954545454545f/guiTextureWidth);
+        UtilGui.drawTexturedModalRect(this, GUIx, GUIy, 0, 0, this.xSize, this.ySize, 3f/guiTextureWidth);
         renderPlayerDoll();
-        drawStringNoShadow(fontRenderer, I18n.getInstance().translateKey("legacyui.guilabel.inventory"),GUIx + 28,GUIy +226, ModSettings.legacyOptions.getGuiLabelColor().value.value);
+        drawStringNoShadow(LCEfontRenderer, I18n.getInstance().translateKey("legacyui.guilabel.inventory"),GUIx + 8,GUIy + 82 - 16, ModSettings.legacyOptions.getGuiLabelColor().value.value);
+    }
+
+    public void refreshFontRenderer() {
+        this.LCEfontRenderer = (LCEFontRenderer) this.mc.fontRenderer;
     }
     private void renderPlayerDoll(){
         GL11.glEnable(32826);
         GL11.glEnable(2903);
         GL11.glEnable(2929);
         GL11.glPushMatrix();
-        GL11.glTranslatef(GUIx + 51 + 44, GUIy + 75 - 5, 50.0f);
-        float f1 = 30.0f;
+        GL11.glTranslatef(GUIx + 51 + 44 - 16, GUIy + 75 - 5 - 8, 50.0f);
+        float f1 = 26.0f;
         GL11.glScalef(-f1, f1, f1);
         GL11.glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
         float f2 = this.mc.thePlayer.renderYawOffset;
         float f3 = this.mc.thePlayer.yRot;
         float f4 = this.mc.thePlayer.xRot;
-        float f5 = (float)(GUIx + 51 + 44) - this.xSize_lo;
+        float f5 = (float)(GUIx + 51 + 44 - 16) - this.xSize_lo;
         float f6 = (float)(GUIy + 75 - 50 - 5) - this.ySize_lo;
         GL11.glRotatef(135.0f, 0.0f, 1.0f, 0.0f);
         Lighting.enableLight();
