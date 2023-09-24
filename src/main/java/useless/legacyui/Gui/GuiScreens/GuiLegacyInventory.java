@@ -1,44 +1,45 @@
 package useless.legacyui.Gui.GuiScreens;
 
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiElement;
 import net.minecraft.client.gui.GuiInventory;
+import net.minecraft.client.gui.options.GuiOptionButton;
 import net.minecraft.client.input.InputType;
+import net.minecraft.client.option.GameSettings;
 import net.minecraft.client.render.EntityRenderDispatcher;
-import net.minecraft.client.render.FontRenderer;
 import net.minecraft.client.render.Lighting;
 import net.minecraft.core.entity.player.EntityPlayer;
+import net.minecraft.core.item.Item;
+import net.minecraft.core.item.ItemArmor;
+import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.lang.I18n;
+import net.minecraft.core.player.gamemode.Gamemode;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Point;
 import useless.legacyui.Gui.GuiElements.Buttons.GuiAuditoryButton;
 import useless.legacyui.Gui.GuiElements.GuiButtonPrompt;
-import useless.legacyui.Gui.LCEFontRenderer;
 import useless.legacyui.LegacySoundManager;
-import useless.legacyui.LegacyUI;
-import useless.legacyui.Mixins.Gui.GuiInventoryAccessor;
 import useless.legacyui.Settings.ModSettings;
-import useless.legacyui.Gui.GuiElements.LCEText;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class GuiLegacyInventory extends GuiInventory {
-    public useless.legacyui.Gui.LCEFontRenderer lcefr;
-    public useless.legacyui.LegacyUI lce;
-    public useless.legacyui.Gui.LCEFontRenderer LCEfontRenderer;
     private static int GUIx;
+    private List<Integer> uvs;
     private static final int guiTextureWidth = 435;
     private static int GUIy;
 
     protected GuiAuditoryButton craftButton;
     protected EntityPlayer player;
     public List<GuiButtonPrompt> prompts = new ArrayList<>();
+    private GuiButton armorButton;
+
     public GuiLegacyInventory(EntityPlayer player) {
         super(player);
         this.player = player;
     }
     public void initGui() {
-        super.initGui();
 
         // Setup size variables
         xSize = 145;
@@ -55,6 +56,17 @@ public class GuiLegacyInventory extends GuiInventory {
         prompts.add(new GuiButtonPrompt( 102, prompts.get(prompts.size()-1).xPosition + prompts.get(prompts.size()-1).width + 3, this.height-30, 3,translator.translateKey("legacyui.prompt.back"), new int[]{1}));
         prompts.add(new GuiButtonPrompt( 102, prompts.get(prompts.size()-1).xPosition + prompts.get(prompts.size()-1).width + 3, this.height-30, 3,translator.translateKey("legacyui.prompt.movestack"), new int[]{2}));
         prompts.add(new GuiButtonPrompt( 102, prompts.get(prompts.size()-1).xPosition + prompts.get(prompts.size()-1).width + 3, this.height-30, 3,translator.translateKey("legacyui.prompt.halfstack"), new int[]{3}));
+
+        boolean enableArmorButton = false;
+        this.armorButton = null;
+        this.updateOverlayButtons();
+    }
+    public void updateOverlayButtons() {
+        GameSettings settings = this.mc.gameSettings;
+        boolean clock = false;
+        boolean compass = false;
+        boolean rotaryCalendar = false;
+        this.overlayButtonsLayout.elements.clear();
     }
     protected void buttonPressed(GuiButton guibutton) {
         super.buttonPressed(guibutton);
@@ -72,7 +84,7 @@ public class GuiLegacyInventory extends GuiInventory {
         super.drawScreen(x, y, renderPartialTicks);
 
         UtilGui.bindTexture("/assets/legacyui/gui/legacyinventory.png");
-        this.drawTexturedModalRect(craftButton.xPosition, craftButton.yPosition, 177, craftButton.isHovered(x,y) ? 77:54, craftButton.width, craftButton.height); // Crafting Button Render
+        this.drawTexturedModalRect(craftButton.xPosition, craftButton.yPosition, 200, craftButton.isHovered(x,y) ? 77:54, craftButton.width, craftButton.height); // Crafting Button Render
         if (mc.inputType == InputType.CONTROLLER){
             for (GuiButtonPrompt prompt: prompts) {
                 prompt.drawPrompt(mc, x, y);
@@ -91,13 +103,14 @@ public class GuiLegacyInventory extends GuiInventory {
     }
 
     private void renderInvText() {
-        int scale = (int) 1.4;
-        double size = 1.4;
+        double size = 1.3;
+        double size2 = 0.7692307692307692;
         int posX = GUIx+8;
-        int posY = GUIy+82;
+        int posY = GUIy+68;
         GL11.glPushMatrix();
         GL11.glScaled(1/size,1/size,1/size);
-        drawStringNoShadow(fontRenderer, I18n.getInstance().translateKey("legacyui.guilabel.inventory"), posX*(1/scale), posY*(1/scale), ModSettings.legacyOptions.getGuiLabelColor().value.value);
+        GL11.glTranslated(posX*(1/size2), posY*(1/size2), 0);
+        drawStringNoShadow(fontRenderer, I18n.getInstance().translateKey("legacyui.guilabel.inventory"), 0, 0, ModSettings.legacyOptions.getGuiLabelColor().value.value);
         GL11.glPopMatrix();
     }
 
@@ -106,7 +119,7 @@ public class GuiLegacyInventory extends GuiInventory {
         GL11.glEnable(2903);
         GL11.glEnable(2929);
         GL11.glPushMatrix();
-        GL11.glTranslatef(GUIx + 51 + 44 - 16, GUIy + 75 - 5 - 8, 50.0f);
+        GL11.glTranslatef(GUIx + 51 + 44 - 14, GUIy + 75 - 5 - 8, 50.0f);
         float f1 = 26.0f;
         GL11.glScalef(-f1, f1, f1);
         GL11.glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
